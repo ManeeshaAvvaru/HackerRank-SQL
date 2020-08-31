@@ -1,0 +1,10 @@
+with challenge 
+as 
+( select c.hacker_id as id , h.name as name , count(c.challenge_id) as c_id from Hackers  h inner join Challenges  c on h.hacker_id=c.hacker_id group by c.hacker_id, h.name )
+
+select id, name, c_id from challenge where 
+
+c_id =(select max(c_id) from challenge ) or 
+c_id in
+(select c_id from challenge group by c_id having count(c_id) =1)
+ORDER BY c_id desc, id
